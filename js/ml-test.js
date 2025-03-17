@@ -1,3 +1,5 @@
+const API_URL = "http://165.227.45.231:8000/detect_faces";
+
 // Assuming the user is already authenticated and the server is sending the required data during login
 document.addEventListener('DOMContentLoaded', function () {
     // Fetch user data (email and API call count) from the server
@@ -50,10 +52,10 @@ let detectionIntervalId = null;
 // ========== Start Webcam ==========
 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices.getUserMedia({ video: true })
-    .then(stream => {
-        video.srcObject = stream;
-    })
-    .catch(err => console.error("Error accessing webcam: ", err));
+        .then(stream => {
+            video.srcObject = stream;
+        })
+        .catch(err => console.error("Error accessing webcam: ", err));
 }
 
 // ========== Real-Time Detection Controls ==========
@@ -72,15 +74,15 @@ function startRealTimeDetection(interval) {
     stopRealTimeDetection();
 
     detectionIntervalId = setInterval(() => {
-    captureFrameAndDetect();
+        captureFrameAndDetect();
     }, interval);
 }
 
 // ========== Stop Real-Time Detection ==========
 function stopRealTimeDetection() {
     if (detectionIntervalId) {
-    clearInterval(detectionIntervalId);
-    detectionIntervalId = null;
+        clearInterval(detectionIntervalId);
+        detectionIntervalId = null;
     }
     // Clear overlay
     videoCtx.clearRect(0, 0, videoOverlay.width, videoOverlay.height);
@@ -96,10 +98,10 @@ function captureFrameAndDetect() {
     offscreenCtx.drawImage(video, 0, 0, offscreenCanvas.width, offscreenCanvas.height);
 
     offscreenCanvas.toBlob(blob => {
-    sendImageToEndpoint(blob, (data) => {
-        // Draw boxes on the video overlay
-        drawBoxesOnVideo(data.faces, videoOverlay, videoCtx);
-    });
+        sendImageToEndpoint(blob, (data) => {
+            // Draw boxes on the video overlay
+            drawBoxesOnVideo(data.faces, videoOverlay, videoCtx);
+        });
     }, 'image/jpeg');
 }
 
@@ -107,23 +109,23 @@ function captureFrameAndDetect() {
 document.getElementById('uploadButton').addEventListener('click', () => {
     const fileInput = document.getElementById('fileInput');
     if (fileInput.files && fileInput.files[0]) {
-    const file = fileInput.files[0];
-    // Display the image
-    uploadedImage.src = URL.createObjectURL(file);
-    uploadedImage.onload = () => {
-        // Resize overlay to match uploaded image
-        uploadedOverlay.width = uploadedImage.width;
-        uploadedOverlay.height = uploadedImage.height;
-        uploadedOverlay.style.width = uploadedImage.width + 'px';
-        uploadedOverlay.style.height = uploadedImage.height + 'px';
-        uploadedImage.style.display = 'block';
-    };
+        const file = fileInput.files[0];
+        // Display the image
+        uploadedImage.src = URL.createObjectURL(file);
+        uploadedImage.onload = () => {
+            // Resize overlay to match uploaded image
+            uploadedOverlay.width = uploadedImage.width;
+            uploadedOverlay.height = uploadedImage.height;
+            uploadedOverlay.style.width = uploadedImage.width + 'px';
+            uploadedOverlay.style.height = uploadedImage.height + 'px';
+            uploadedImage.style.display = 'block';
+        };
 
-    // Send to endpoint
-    sendImageToEndpoint(file, (data) => {
-        // Draw boxes on the uploaded overlay
-        drawBoxesOnCanvas(data.faces, uploadedOverlay, uploadedCtx);
-    });
+        // Send to endpoint
+        sendImageToEndpoint(file, (data) => {
+            // Draw boxes on the uploaded overlay
+            drawBoxesOnCanvas(data.faces, uploadedOverlay, uploadedCtx);
+        });
     }
 });
 
@@ -132,22 +134,22 @@ function sendImageToEndpoint(imageBlob, callback) {
     const formData = new FormData();
     formData.append('image', imageBlob);
 
-    fetch('http://165.227.45.231:8000/detect_faces', {
+    fetch(API_URL, {
         method: 'POST',
         body: formData
     })
-    .then(response => response.json())
-    .then(data => {
-        // Display result in <pre>
-        document.getElementById('result').textContent = JSON.stringify(data, null, 2);
-        if (data.faces && data.faces.length > 0) {
-            callback(data);
-        } else {
-            // No faces or empty data
-            callback({ faces: [] });
-        }
-    })
-    .catch(error => console.error('Error:', error));
+        .then(response => response.json())
+        .then(data => {
+            // Display result in <pre>
+            document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+            if (data.faces && data.faces.length > 0) {
+                callback(data);
+            } else {
+                // No faces or empty data
+                callback({ faces: [] });
+            }
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 // ========== Draw Boxes on Specified Canvas ==========
@@ -157,7 +159,7 @@ function drawBoxesOnCanvas(faces, canvas, context) {
     context.strokeStyle = 'red';
     context.lineWidth = 2;
     faces.forEach(face => {
-         context.strokeRect(face.x, face.y, face.w, face.h);
+        context.strokeRect(face.x, face.y, face.w, face.h);
     });
 }
 function drawBoxesOnVideo(faces, canvas, context) {
