@@ -132,7 +132,7 @@ function sendImageToEndpoint(imageBlob, callback) {
     const formData = new FormData();
     formData.append('image', imageBlob);
 
-    fetch('http://165.227.45.231:8000/detect_faces', {
+    fetch('https://165.227.45.231:8000/detect_faces', {
         method: 'POST',
         body: formData
     })
