@@ -32,9 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
 const video = document.getElementById('video');
 const videoOverlay = document.getElementById('videoOverlay');
 const videoCtx = videoOverlay.getContext('2d');
-
-let captureWidth
-let captureHeight
+let captureWidth, captureHeight;
 const displayWidth = 640;
 const displayHeight = 360;
 
@@ -48,30 +46,49 @@ const uploadedOverlay = document.getElementById('uploadedOverlay');
 const uploadedCtx = uploadedOverlay.getContext('2d');
 
 let detectionIntervalId = null;
+let videoStream = null;  // Store the video stream
 
-// ========== Start Webcam ==========
-if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+
+// ========== Start Webcam Function ==========
+function startWebcam() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        console.error("Webcam not supported.");
+        return;
+    }
+
     navigator.mediaDevices.getUserMedia({ video: true })
         .then(stream => {
             video.srcObject = stream;
+            videoStream = stream;
         })
         .catch(err => console.error("Error accessing webcam: ", err));
 }
 
+// ========== Stop Webcam Function ==========
+function stopWebcam() {
+    if (videoStream) {
+        let tracks = videoStream.getTracks();
+        tracks.forEach(track => track.stop()); // Stop each track
+        video.srcObject = null;
+        videoStream = null;
+    }
+}
+
 // ========== Real-Time Detection Controls ==========
 document.getElementById('startButton').addEventListener('click', () => {
-    const interval = parseInt(document.getElementById('intervalInput').value, 10) || 2000;
+    startWebcam();  // Open the camera
+    const interval = parseInt(document.getElementById('intervalInput').value, 10) || 1000;
     startRealTimeDetection(interval);
 });
 
 document.getElementById('stopButton').addEventListener('click', () => {
     stopRealTimeDetection();
+    stopWebcam();  // Close the camera
 });
 
 // ========== Start Real-Time Detection ==========
 function startRealTimeDetection(interval) {
-    // If already running, stop first
-    stopRealTimeDetection();
+    stopRealTimeDetection();  // Stop any existing intervals before starting
 
     detectionIntervalId = setInterval(() => {
         captureFrameAndDetect();
@@ -84,13 +101,13 @@ function stopRealTimeDetection() {
         clearInterval(detectionIntervalId);
         detectionIntervalId = null;
     }
-    // Clear overlay
     videoCtx.clearRect(0, 0, videoOverlay.width, videoOverlay.height);
 }
 
 // ========== Capture Frame from Webcam & Send to API ==========
 function captureFrameAndDetect() {
-    // Create an offscreen canvas to capture the current video frame
+    if (!videoStream) return;  // Don't process if camera is off
+
     const offscreenCanvas = document.createElement('canvas');
     offscreenCanvas.width = video.videoWidth || 640;
     offscreenCanvas.height = video.videoHeight || 360;
@@ -99,7 +116,6 @@ function captureFrameAndDetect() {
 
     offscreenCanvas.toBlob(blob => {
         sendImageToEndpoint(blob, (data) => {
-            // Draw boxes on the video overlay
             drawBoxesOnVideo(data.faces, videoOverlay, videoCtx);
         });
     }, 'image/jpeg');
