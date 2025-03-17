@@ -1,4 +1,4 @@
-const API_URL = "http://165.227.45.231:8000/detect_faces";
+const API_URL = "https://165.227.45.231/detect_faces";
 
 // Assuming the user is already authenticated and the server is sending the required data during login
 document.addEventListener('DOMContentLoaded', function () {
