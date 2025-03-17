@@ -30,6 +30,7 @@
           max-width: 500px;
         }
         #uploadedOverlay {
+          border: none;
           position: absolute;
           top: 0;
           left: 0;
@@ -52,15 +53,13 @@
     <div class="section">
       <h2>Webcam Real-Time Detection</h2>
       <div id="videoContainer">
-        <!-- <video id="video" width="400" height="300" autoplay></video>
-        <canvas id="videoOverlay" width="400" height="300"></canvas> -->
-        <video id="video" autoplay playsinline></video>
-        <canvas id="videoOverlay" style="position:absolute; top:0; left:0;"></canvas>
+        <video id="video" width="640" height="360" autoplay></video>
+        <canvas id="videoOverlay" width="640" height="360"></canvas>
       </div>
       <br>
       <label>
         Interval (ms):
-        <input type="number" id="intervalInput" value="2000" style="width:80px;">
+        <input type="number" id="intervalInput" value="1000" style="width:80px;">
       </label>
       <button id="startButton">Start Real-Time Detection</button>
       <button id="stopButton">Stop Real-Time Detection</button>

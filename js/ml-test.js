@@ -31,11 +31,15 @@ const video = document.getElementById('video');
 const videoOverlay = document.getElementById('videoOverlay');
 const videoCtx = videoOverlay.getContext('2d');
 
-// When video metadata is loaded, adjust canvas size
+let captureWidth
+let captureHeight
+const displayWidth = 640;
+const displayHeight = 360;
+
 video.addEventListener('loadedmetadata', () => {
-    videoOverlay.width = video.videoWidth;
-    videoOverlay.height = video.videoHeight;
-  });
+    captureWidth = video.videoWidth;
+    captureHeight = video.videoHeight;
+});
 
 const uploadedImage = document.getElementById('uploadedImage');
 const uploadedOverlay = document.getElementById('uploadedOverlay');
@@ -86,15 +90,15 @@ function stopRealTimeDetection() {
 function captureFrameAndDetect() {
     // Create an offscreen canvas to capture the current video frame
     const offscreenCanvas = document.createElement('canvas');
-    offscreenCanvas.width = video.videoWidth || 400;
-    offscreenCanvas.height = video.videoHeight || 300;
+    offscreenCanvas.width = video.videoWidth || 640;
+    offscreenCanvas.height = video.videoHeight || 360;
     const offscreenCtx = offscreenCanvas.getContext('2d');
     offscreenCtx.drawImage(video, 0, 0, offscreenCanvas.width, offscreenCanvas.height);
 
     offscreenCanvas.toBlob(blob => {
     sendImageToEndpoint(blob, (data) => {
         // Draw boxes on the video overlay
-        drawBoxesOnCanvas(data.faces, videoOverlay, videoCtx);
+        drawBoxesOnVideo(data.faces, videoOverlay, videoCtx);
     });
     }, 'image/jpeg');
 }
@@ -153,6 +157,24 @@ function drawBoxesOnCanvas(faces, canvas, context) {
     context.strokeStyle = 'red';
     context.lineWidth = 2;
     faces.forEach(face => {
-    context.strokeRect(face.x, face.y, face.w, face.h);
+         context.strokeRect(face.x, face.y, face.w, face.h);
+    });
+}
+function drawBoxesOnVideo(faces, canvas, context) {
+    // Clear overlay
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.strokeStyle = 'red';
+    context.lineWidth = 2;
+
+    // Scale factor
+    const scaleX = displayWidth / captureWidth;   // e.g. 400/1280
+    const scaleY = displayHeight / captureHeight; // e.g. 300/720
+
+    faces.forEach(face => {
+        const xScaled = face.x * scaleX;
+        const yScaled = face.y * scaleY;
+        const wScaled = face.w * scaleX;
+        const hScaled = face.h * scaleY;
+        context.strokeRect(xScaled, yScaled, wScaled, hScaled);
     });
 }
