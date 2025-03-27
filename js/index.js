@@ -25,3 +25,47 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = 'login.html';
     });
 });
+
+
+// Function to send commands to the server
+function sendCommand(command) {
+    fetch('http://localhost:5000/control', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ command: command })
+    })
+    .then(response => console.log('Command sent:', command))
+    .catch(error => console.error('Error:', error));
+}
+
+// Keyboard controls
+document.addEventListener('keydown', function(event) {
+    let command = '';
+    switch (event.key) {
+        case 'ArrowLeft': command = 'left'; break;
+        case 'ArrowRight': command = 'right'; break;
+        case 'ArrowUp': command = 'forward'; break;
+        case 'ArrowDown': command = 'backward'; break;
+        case 'w': command = 'up'; break;
+        case 's': command = 'down'; break;
+        case 'a': command = 'rotate_left'; break;
+        case 'd': command = 'rotate_right'; break;
+        case 'e': command = 'takeoff'; break;
+        case 'q': command = 'land'; break;
+    }
+    if (command) {
+        sendCommand(command);
+        event.preventDefault(); // Prevent page scrolling with arrow keys
+    }
+});
+
+// toggle face tracking
+function toggleTracking() {
+    fetch('http://localhost:5000/toggle_tracking')
+    .then(response => response.json())
+    .then(data => {
+        const button = document.getElementById('trackingButton');
+        button.innerText = data.tracking ? 'Stop Tracking' : 'Track Face';
+    })
+    .catch(error => console.error('Error:', error));
+}
