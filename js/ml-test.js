@@ -1,4 +1,7 @@
-const API_URL = "https://facedetection.ddns.net/detect_faces";
+// const API_URL = "https://facedetection.ddns.net/detect_faces";
+
+const API_URL = "https://graceful-otter.ngrok-free.app/detect_faces"; // <== replace with your real ngrok URL
+
 
 // Assuming the user is already authenticated and the server is sending the required data during login
 document.addEventListener('DOMContentLoaded', function () {
