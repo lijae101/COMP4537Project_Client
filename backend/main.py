@@ -56,23 +56,3 @@ from yolo_face import detect_faces
 @app.post("/detect_faces")
 async def detect_faces_api(image: UploadFile = File(...)):
     return await detect_faces(image)
-
-
-
-from starlette.responses import StreamingResponse
-import cv2
-
-def generate_frames():
-    cap = cv2.VideoCapture(0)  # Use webcam
-    while True:
-        success, frame = cap.read()
-        if not success:
-            break
-        _, buffer = cv2.imencode('.jpg', frame)
-        frame_bytes = buffer.tobytes()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
-
-@app.get("/video_feed")
-async def video_feed():
-    return StreamingResponse(generate_frames(), media_type="multipart/x-mixed-replace; boundary=frame")

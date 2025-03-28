@@ -60,74 +60,13 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-// // toggle face tracking
-// function toggleTracking() {
-//     fetch(`${BASE_URL}/control`)
-//     .then(response => response.json())
-//     .then(data => {
-//         const button = document.getElementById('trackingButton');
-//         button.innerText = data.tracking ? 'Stop Tracking' : 'Track Face';
-//     })
-//     .catch(error => console.error('Error:', error));
-// }
-
-
-/////////////// TEST JUST FOR NOW WITH CAMERA LAPTOP /////////////////////
-let trackingStream = null;
-let trackingInterval = null;
-
+// toggle face tracking
 function toggleTracking() {
-    const button = document.getElementById('trackingButton');
-
-    if (trackingStream) {
-        stopTracking();
-        button.innerText = "Track Face";
-        return;
-    }
-
-    navigator.mediaDevices.getUserMedia({ video: true })
-        .then(stream => {
-            trackingStream = stream;
-            button.innerText = "Stop Tracking";
-
-            const video = document.createElement('video');
-            video.srcObject = stream;
-            video.play();
-
-            trackingInterval = setInterval(() => {
-                const canvas = document.createElement('canvas');
-                canvas.width = 640;
-                canvas.height = 360;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-                canvas.toBlob(blob => {
-                    const formData = new FormData();
-                    formData.append('image', blob);
-
-                    fetch(`${BASE_URL}/control`, {
-                        method: 'POST',
-                        body: formData
-                    })
-                        .then(res => res.json())
-                        .then(data => {
-                            console.log("Faces:", data.faces);
-                            // Optionally: draw boxes or update UI here
-                        })
-                        .catch(err => console.error('Detection error:', err));
-                }, 'image/jpeg');
-            }, 1000);
-        })
-        .catch(err => console.error('Webcam access denied:', err));
-}
-
-function stopTracking() {
-    if (trackingStream) {
-        trackingStream.getTracks().forEach(t => t.stop());
-        trackingStream = null;
-    }
-    if (trackingInterval) {
-        clearInterval(trackingInterval);
-        trackingInterval = null;
-    }
+    fetch(`${BASE_URL}/control`)
+    .then(response => response.json())
+    .then(data => {
+        const button = document.getElementById('trackingButton');
+        button.innerText = data.tracking ? 'Stop Tracking' : 'Track Face';
+    })
+    .catch(error => console.error('Error:', error));
 }
