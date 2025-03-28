@@ -1,4 +1,4 @@
-const BASE_URL = "https://graceful-otter.ngrok-free.app";
+const BASE_URL = "https://9040-142-232-153-30.ngrok-free.app";
 // Assuming the user is already authenticated and the server is sending the required data during login
 document.addEventListener('DOMContentLoaded', function () {
     // Fetch user data (email and API call count) from the server
