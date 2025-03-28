@@ -1,3 +1,4 @@
+const BASE_URL = "https://graceful-otter.ngrok-free.app";
 // Assuming the user is already authenticated and the server is sending the required data during login
 document.addEventListener('DOMContentLoaded', function () {
     // Fetch user data (email and API call count) from the server
@@ -29,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Function to send commands to the server
 function sendCommand(command) {
-    fetch('http://localhost:5000/control', {
+    fetch(`${BASE_URL}/control`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ command: command })
@@ -61,7 +62,7 @@ document.addEventListener('keydown', function(event) {
 
 // toggle face tracking
 function toggleTracking() {
-    fetch('http://localhost:5000/toggle_tracking')
+    fetch(`${BASE_URL}/control`)
     .then(response => response.json())
     .then(data => {
         const button = document.getElementById('trackingButton');
