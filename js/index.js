@@ -62,7 +62,7 @@ document.addEventListener('keydown', function(event) {
 
 // toggle face tracking
 function toggleTracking() {
-    fetch(`${BASE_URL}/control`)
+    fetch(`${BASE_URL}/toggle_tracking`)
     .then(response => response.json())
     .then(data => {
         const button = document.getElementById('trackingButton');
