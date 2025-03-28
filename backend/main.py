@@ -1,4 +1,5 @@
 # main.py
+from fastapi import UploadFile, File
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -55,3 +56,6 @@ from yolo_face import detect_faces
 @app.post("/detect_faces")
 async def detect_faces_api(image: UploadFile = File(...)):
     return await detect_faces(image)
+
+
+
