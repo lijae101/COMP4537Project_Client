@@ -43,14 +43,14 @@ function sendCommand(command) {
 document.addEventListener('keydown', function(event) {
     let command = '';
     switch (event.key) {
-        case 'ArrowLeft': command = 'left'; break;
-        case 'ArrowRight': command = 'right'; break;
-        case 'ArrowUp': command = 'forward'; break;
-        case 'ArrowDown': command = 'backward'; break;
-        case 'w': command = 'up'; break;
-        case 's': command = 'down'; break;
-        case 'a': command = 'rotate_left'; break;
-        case 'd': command = 'rotate_right'; break;
+        case 'ArrowLeft': command = 'rotate_left'; break;
+        case 'ArrowRight': command = 'rotate_right'; break;
+        case 'ArrowUp': command = 'up'; break;
+        case 'ArrowDown': command = 'down'; break;
+        case 'w': command = 'forward'; break;
+        case 's': command = 'backward'; break;
+        case 'a': command = 'left'; break;
+        case 'd': command = 'right'; break;
         case 'e': command = 'takeoff'; break;
         case 'q': command = 'land'; break;
     }
