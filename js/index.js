@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error("Error:", xhr.status, xhr.statusText);
             }
         };
+         xhr.send();
     });
 
 
