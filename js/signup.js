@@ -36,7 +36,7 @@ document.getElementById("signupForm").addEventListener("submit", function(event)
                 if(xhr.responseText.includes("API limit reached")) {
                     alert("API limit reached. Please try again later.");
                 }
-                let response = xhr.responseText;
+                let response = JSON.parse(xhr.responseText);
                 console.log("Server Response:", response);
 
                 if (response.message === "User created successfully") {
@@ -52,7 +52,7 @@ document.getElementById("signupForm").addEventListener("submit", function(event)
                     `;
                     document.getElementById("successMessage").innerHTML = successMessage;
                 } else {
-                    alert("Signup failed: " + response); 
+                    alert("Signup failed: " + response.message); 
                 }
             } else {
                 console.error("Error:", xhr.status, xhr.statusText);
