@@ -1,4 +1,5 @@
-const BASE_URL = "https://comp4537g2.loca.lt";
+const DRONE_URL = "https://comp4537g2.loca.lt";
+
 // Assuming the user is already authenticated and the server is sending the required data during login
 document.addEventListener('DOMContentLoaded', function () {
     // Fetch user data (email and API call count) from the server
@@ -30,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Function to send commands to the server
 function sendCommand(command) {
-    fetch(`${BASE_URL}/control`, {
+    fetch(`${DRONE_URL}/control`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'bypass-tunnel-reminder': 'true'  },
         body: JSON.stringify({ command: command })
@@ -60,19 +61,48 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
+let faceDetectionEnabled = false;
+let faceTrackingEnabled = false;
+
+function toggleFaceDetection() {
+    fetch('https://lionfish-app-kaw6i.ondigitalocean.app/drone/toggle_face_detection',{headers: { 'bypass-tunnel-reminder': 'true' }})
+    // fetch(`${DRONE_URL}/toggle_face_detection`,{headers: { 'bypass-tunnel-reminder': 'true' }})
+        .then(response => response.json())
+        .then(data => {
+            faceDetectionEnabled = data.face_detection;
+            trackingEnabled = data.tracking;
+            const fdButton = document.getElementById('faceDetectionButton');
+            fdButton.innerText = faceDetectionEnabled ? 'Disable Face Detection' : 'Enable Face Detection';
+            const trackingButton = document.getElementById('trackingButton');
+            trackingButton.innerText = trackingEnabled ? 'Stop Tracking' : 'Start Tracking';
+            trackingButton.disabled = !faceDetectionEnabled;
+        })
+        .catch(error => console.error('Error:', error));
+}
+
 // toggle face tracking
 function toggleTracking() {
-    fetch(`${BASE_URL}/toggle_tracking`,{headers: { 'bypass-tunnel-reminder': 'true' }})
-    .then(response => response.json())
-    .then(data => {
-        const button = document.getElementById('trackingButton');
-        button.innerText = data.tracking ? 'Stop Tracking' : 'Track Face';
+    fetch(`https://lionfish-app-kaw6i.ondigitalocean.app/drone/toggle_face_tracking`,{headers: { 'bypass-tunnel-reminder': 'true' }})
+    // fetch(`${DRONE_URL}/toggle_face_tracking`,{headers: { 'bypass-tunnel-reminder': 'true' }})
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Face detection must be enabled');
+        }
+        return response.json();
     })
-    .catch(error => console.error('Error:', error));
+    .then(data => {
+        trackingEnabled = data.tracking;
+        const trackingButton = document.getElementById('trackingButton');
+        trackingButton.innerText = trackingEnabled ? 'Stop Tracking' : 'Start Tracking';
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert(error.message);
+    });
 }
 
 function updateTelemetry() {
-    fetch(`${BASE_URL}/telemetry`)
+    fetch(`${DRONE_URL}/telemetry`,{headers: { 'bypass-tunnel-reminder': 'true' }})
     .then(response => response.json())
     .then(data => {
         document.getElementById('battery').textContent = data.battery;
@@ -82,7 +112,7 @@ function updateTelemetry() {
 }
 
 function updateFaces() {
-    fetch(`${BASE_URL}/faces`)
+    fetch(`${DRONE_URL}/faces`,{headers: { 'bypass-tunnel-reminder': 'true' }})
     .then(response => response.json())
     .then(data => {
         const select = document.getElementById('faceSelect');
@@ -101,9 +131,9 @@ function updateFaces() {
 document.getElementById('faceSelect').addEventListener('change', function() {
     const faceId = this.value;
     if (faceId) {
-        fetch(`${BASE_URL}/select_face`, {
+        fetch(`${DRONE_URL}/select_face`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'bypass-tunnel-reminder': 'true' },
             body: JSON.stringify({ face_id: parseInt(faceId) })
         }).catch(error => console.error('Error selecting face:', error));
     }

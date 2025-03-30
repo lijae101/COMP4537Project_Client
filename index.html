@@ -27,7 +27,7 @@
         <div class="row">
             <!-- Video Feed -->
             <div class="col-md-8">
-                <img src="https://comp4537g2.loca.lt/video_feed" alt="Drone Video Feed" class="img-fluid">
+                <img id="drone_video_stream" src="https://comp4537g2.loca.lt/video_feed" alt="Drone Video Feed" class="img-fluid">
                 <!-- Telemetry Card -->
                 <div class="card mb-3">
                     <div class="card-body">
@@ -111,10 +111,16 @@
                                 <button onclick="sendCommand('flip_backward')" class="btn btn-primary w-100">Flip Back</button>
                             </div>
                         </div>
+                        <!-- Face Detection -->
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <button id="faceDetectionButton" class="btn btn-warning w-100" onclick="toggleFaceDetection()">Face Detection</button>
+                            </div>
+                        </div>
                         <!-- Track Face -->
                         <div class="row mb-3">
                             <div class="col-12">
-                                <button id="trackingButton" class="btn btn-warning w-100" onclick="toggleTracking()">Track Face</button>
+                                <button id="trackingButton" class="btn btn-warning w-100" onclick="toggleTracking()" disabled>Track Face</button>
                             </div>
                         </div>
                         
