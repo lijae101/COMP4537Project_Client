@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
        document.getElementById("resetPassword").style.display = "block";
         
     });
-    document.getElementById("submit").addEventListener("click", function () {
+    document.getElementById("resetsubmit").addEventListener("click", function () {
         let email = document.getElementById("resetEmail").value.trim();
         console.log("Email:", email); // Log the email value for debugging
         if (!email) {
