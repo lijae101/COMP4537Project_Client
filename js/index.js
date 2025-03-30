@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Function to send commands to the server
 function sendCommand(command) {
-    fetch(`${DRONE_URL}/control`, {
+    fetch(`${DRONE_URL}/v1/control`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'bypass-tunnel-reminder': 'true'  },
         body: JSON.stringify({ command: command })
@@ -65,8 +65,8 @@ let faceDetectionEnabled = false;
 let faceTrackingEnabled = false;
 
 function toggleFaceDetection() {
-    fetch('https://lionfish-app-kaw6i.ondigitalocean.app/drone/toggle_face_detection',{headers: { 'bypass-tunnel-reminder': 'true' }})
-    // fetch(`${DRONE_URL}/toggle_face_detection`,{headers: { 'bypass-tunnel-reminder': 'true' }})
+    fetch('https://lionfish-app-kaw6i.ondigitalocean.app/drone/v1/toggle_face_detection',{headers: { 'bypass-tunnel-reminder': 'true' }})
+    // fetch(`${DRONE_URL}/v1/toggle_face_detection`,{headers: { 'bypass-tunnel-reminder': 'true' }})
         .then(response => response.json())
         .then(data => {
             faceDetectionEnabled = data.face_detection;
@@ -82,8 +82,8 @@ function toggleFaceDetection() {
 
 // toggle face tracking
 function toggleTracking() {
-    fetch(`https://lionfish-app-kaw6i.ondigitalocean.app/drone/toggle_face_tracking`,{headers: { 'bypass-tunnel-reminder': 'true' }})
-    // fetch(`${DRONE_URL}/toggle_face_tracking`,{headers: { 'bypass-tunnel-reminder': 'true' }})
+    fetch(`https://lionfish-app-kaw6i.ondigitalocean.app/drone/v1/toggle_face_tracking`,{headers: { 'bypass-tunnel-reminder': 'true' }})
+    // fetch(`${DRONE_URL}/v1/toggle_face_tracking`,{headers: { 'bypass-tunnel-reminder': 'true' }})
     .then(response => {
         if (!response.ok) {
             throw new Error('Face detection must be enabled');
@@ -102,7 +102,7 @@ function toggleTracking() {
 }
 
 function updateTelemetry() {
-    fetch(`${DRONE_URL}/telemetry`,{headers: { 'bypass-tunnel-reminder': 'true' }})
+    fetch(`${DRONE_URL}/v1/telemetry`,{headers: { 'bypass-tunnel-reminder': 'true' }})
     .then(response => response.json())
     .then(data => {
         document.getElementById('battery').textContent = data.battery;
@@ -112,7 +112,7 @@ function updateTelemetry() {
 }
 
 function updateFaces() {
-    fetch(`${DRONE_URL}/faces`,{headers: { 'bypass-tunnel-reminder': 'true' }})
+    fetch(`${DRONE_URL}/v1/faces`,{headers: { 'bypass-tunnel-reminder': 'true' }})
     .then(response => response.json())
     .then(data => {
         const select = document.getElementById('faceSelect');
@@ -131,7 +131,7 @@ function updateFaces() {
 document.getElementById('faceSelect').addEventListener('change', function() {
     const faceId = this.value;
     if (faceId) {
-        fetch(`${DRONE_URL}/select_face`, {
+        fetch(`${DRONE_URL}/v1/select_face`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'bypass-tunnel-reminder': 'true' },
             body: JSON.stringify({ face_id: parseInt(faceId) })
