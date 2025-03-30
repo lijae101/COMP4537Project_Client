@@ -2,9 +2,43 @@ const DRONE_URL = "https://comp4537g2.loca.lt";
 
 // Assuming the user is already authenticated and the server is sending the required data during login
 document.addEventListener('DOMContentLoaded', function () {
+    let userId = localStorage.getItem('userID'); // Assuming userID is stored in localStorage after login
+    const xhr2 = new XMLHttpRequest();
+    xhr2.withCredentials = true; // Include credentials in the request
+    xhr2.open("GET", "https://lionfish-app-kaw6i.ondigitalocean.app/api/v1/index?userID=" + userId, true); // Adjust the URL as needed
+    xhr2.setRequestHeader("Content-Type", "application/json");
+    xhr2.onreadystatechange = function () {
+        if (xhr2.readyState === 4) {
+            console.log("Response:", xhr2.responseText);
+            if (xhr2.responseText.includes("API limit reached")) {
+                alert("API limit reached. Please try again later.");
+            }
+            if (xhr2.status === 200) {
+                let response = xhr2.responseText.trim();
+                response = JSON.parse(response);
+                if (response.message && response.message.toLowerCase().includes("session expired")) {
+                    alert("Session expired. Please log in again.");
+                    window.location.href = "login.html";
+                    return;
+                }
+                localStorage.setItem("email", response.email);
+                localStorage.setItem("role", response.role);
+                localStorage.setItem("apiCounter", response.apiCounter);
+                if (response.role === "admin") {
+                    localStorage.setItem("usersData", JSON.stringify(response.usersData));
+                    console.log("Users Data:", response.usersData); // Check the entire usersData object
+                    localStorage.setItem("usersData", JSON.stringify(userData.usersData));
+                    window.location.href = "admin.html";
+                }
+
+            }
+        }
+    };
+    xhr2.send();
     // Fetch user data (email and API call count) from the server
     let email = localStorage.getItem('email');  // Assuming email is stored in localStorage after login
     let apiCounter = localStorage.getItem('apiCounter'); // Similarly, the API counter value is stored
+
 
     if (email && apiCounter !== null) {
         // Populate the data on the page
@@ -26,6 +60,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // Redirect to the login page
         window.location.href = 'login.html';
     });
+
+
+
 });
 
 
