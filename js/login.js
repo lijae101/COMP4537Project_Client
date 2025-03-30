@@ -74,44 +74,44 @@ document.addEventListener("DOMContentLoaded", function () {
         xhr.send(data);
     });
 
-    document.getElementById("resetpass").addEventListener("click", function () {
-       document.getElementById("resetPassword").style.display = "block";
+//     document.getElementById("resetpass").addEventListener("click", function () {
+//        document.getElementById("resetPassword").style.display = "block";
         
-    });
-    document.getElementById("resetsubmit").addEventListener("click", function () {
-        let email = document.getElementById("resetEmail").value.trim();
-        console.log("Email:", email); // Log the email value for debugging
-        if (!email) {
-            showMessage(messages.emptyFields, "danger");
-            return;
-        }
+//     });
+//     document.getElementById("resetsubmit").addEventListener("click", function () {
+//         let email = document.getElementById("resetEmail").value.trim();
+//         console.log("Email:", email); // Log the email value for debugging
+//         if (!email) {
+//             showMessage(messages.emptyFields, "danger");
+//             return;
+//         }
 
-        let xhr = new XMLHttpRequest();
-        xhr.withCredentials = true; // Include credentials in the request
-        xhr.open("PUT", "https://lionfish-app-kaw6i.ondigitalocean.app/api/v1/resetPassword?userID=" + localStorage.getItem("userID"), true); // Adjust the URL as needed
-        xhr.setRequestHeader("Content-Type", "application/json");
+//         let xhr = new XMLHttpRequest();
+//         xhr.withCredentials = true; // Include credentials in the request
+//         xhr.open("PUT", "https://lionfish-app-kaw6i.ondigitalocean.app/api/v1/resetPassword?userID=" + localStorage.getItem("userID"), true); // Adjust the URL as needed
+//         xhr.setRequestHeader("Content-Type", "application/json");
 
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                console.log("Response:", xhr.responseText);
-                if(xhr.responseText.includes("API limit reached")) {
-                    alert("API limit reached. Please try again later.");
-                }
-                if (xhr.status === 200) {
-                    console.log("Response:", xhr.responseText);
-                    window.location.href = "login.html"; // Redirect to login page after successful reset
-                    showMessage(messages.resetSuccess, "success");
+//         xhr.onreadystatechange = function () {
+//             if (xhr.readyState === 4) {
+//                 console.log("Response:", xhr.responseText);
+//                 if(xhr.responseText.includes("API limit reached")) {
+//                     alert("API limit reached. Please try again later.");
+//                 }
+//                 if (xhr.status === 200) {
+//                     console.log("Response:", xhr.responseText);
+//                     window.location.href = "login.html"; // Redirect to login page after successful reset
+//                     showMessage(messages.resetSuccess, "success");
 
-                } else {
-                    showMessage(messages.resetError, "danger");
-                }
-            }
-        };
+//                 } else {
+//                     showMessage(messages.resetError, "danger");
+//                 }
+//             }
+//         };
 
-        let data = JSON.stringify({ email: email });
-        xhr.send(data);
-    });
-});
+//         let data = JSON.stringify({ email: email });
+//         xhr.send(data);
+//     });
+ });
 
 function showMessage(message, type) {
     let messageBox = document.getElementById("message-box");
