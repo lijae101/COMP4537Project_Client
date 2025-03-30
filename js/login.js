@@ -19,6 +19,11 @@ document.addEventListener("DOMContentLoaded", function () {
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
 
+                if(xhr.status === 401) {
+                    showMessage(messages.invalidCredentials, "danger");
+                    return;
+                }
+
                 if (xhr.status === 200) {
                     let response = xhr.responseText.trim();
                     response = JSON.parse(response);
