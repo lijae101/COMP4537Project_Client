@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        video, canvas, img {
+          border: 1px solid #ccc;
+          margin-top: 10px;
+        }
+        #videoContainer {
+          position: relative;
+          display: inline-block;
+        }
+        #videoOverlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          pointer-events: none;
+        }
+        #uploadedContainer {
+          position: relative;
+          display: inline-block;
+          margin-top: 10px;
+        }
+        #uploadedImage {
+          display: none;
+          max-width: 500px;
+        }
+        #uploadedOverlay {
+          border: none;
+          position: absolute;
+          top: 0;
+          left: 0;
+          pointer-events: none; 
+        }
+        .section {
+          margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <span class="navbar-brand">ML Tester</span>
+                    <span id="userEmail" style="color: white; margin-right: 10px;"></span>
+                    <span id="apiCounter" style="color: white;"></span>
+            <button id="logoutBtn" class="btn btn-danger">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Real-Time Detection Section -->
+    <div class="section">
+      <h2>Webcam Real-Time Detection</h2>
+      <div id="videoContainer">
+        <video id="video" width="640" height="360" autoplay></video>
+        <canvas id="videoOverlay" width="640" height="360"></canvas>
+      </div>
+      <br>
+      <label>
+        Interval (ms):
+        <input type="number" id="intervalInput" value="1000" style="width:80px;">
+      </label>
+      <button id="startButton">Start Real-Time Detection</button>
+      <button id="stopButton">Stop Real-Time Detection</button>
+      <p><em>Note: Starting real-time detection will continuously send frames to the server every X milliseconds.</em></p>
+    </div>
+
+    <!-- Upload Image Section -->
+    <div class="section">
+      <h2>Single Image Upload</h2>
+      <input type="file" id="fileInput" accept="image/*">
+      <button id="uploadButton">Detect</button>
+      <br>
+      <div id="uploadedContainer">
+        <img id="uploadedImage" alt="Uploaded Preview">
+        <canvas id="uploadedOverlay"></canvas>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Detection Result</h2>
+      <pre id="result"></pre>
+    </div>
+
+    <script src="js/ml-test.js"></script>
+</body>
+</html>
