@@ -57,8 +57,18 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.removeItem('apiCounter');
         localStorage.removeItem('role');
 
-        // Redirect to the login page
-        window.location.href = 'login.html';
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = true; // Include credentials in the request
+        xhr.open('DELETE', "https://lionfish-app-kaw6i.ondigitalocean.app/api/v1/logout", true); // Adjust the URL as needed
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log("Logout successful");
+                window.location.href = 'login.html';
+            } else {
+                console.error("Error:", xhr.status, xhr.statusText);
+            }
+        };
     });
 
 
