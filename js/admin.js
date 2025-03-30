@@ -36,7 +36,7 @@ function deleteUser(email) {
     if (confirm(`Are you sure you want to delete user with email: ${email}?`)) {
         let xhr = new XMLHttpRequest();
         xhr.withCredentials = true; // Include credentials in the request
-        xhr.open('DELETE', `https://lionfish-app-kaw6i.ondigitalocean.app/api/v1/deleteUser?userID=${userID}`, true);
+        xhr.open('DELETE', `https://lionfish-app-kaw6i.ondigitalocean.app/api/v1/deleteUser?userID=${userID},email=${email}`, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
 
        
@@ -56,6 +56,6 @@ function deleteUser(email) {
             }
         };
 
-        xhr.send(JSON.stringify({ email: email })); // Send the email of the user to be deleted
+        xhr.send();
     }
 }
