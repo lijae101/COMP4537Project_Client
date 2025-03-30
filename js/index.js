@@ -1,4 +1,4 @@
-const BASE_URL = "https://9040-142-232-153-30.ngrok-free.app";
+const BASE_URL = "https://comp4537g2.loca.lt";
 // Assuming the user is already authenticated and the server is sending the required data during login
 document.addEventListener('DOMContentLoaded', function () {
     // Fetch user data (email and API call count) from the server
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
 function sendCommand(command) {
     fetch(`${BASE_URL}/control`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'bypass-tunnel-reminder': 'true'  },
         body: JSON.stringify({ command: command })
     })
     .then(response => console.log('Command sent:', command))
@@ -62,7 +62,7 @@ document.addEventListener('keydown', function(event) {
 
 // toggle face tracking
 function toggleTracking() {
-    fetch(`${BASE_URL}/toggle_tracking`)
+    fetch(`${BASE_URL}/toggle_tracking`,{headers: { 'bypass-tunnel-reminder': 'true' }})
     .then(response => response.json())
     .then(data => {
         const button = document.getElementById('trackingButton');
@@ -70,3 +70,51 @@ function toggleTracking() {
     })
     .catch(error => console.error('Error:', error));
 }
+
+function updateTelemetry() {
+    fetch(`${BASE_URL}/telemetry`)
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('battery').textContent = data.battery;
+        document.getElementById('height').textContent = data.height;
+    })
+    .catch(error => console.error('Error fetching telemetry:', error));
+}
+
+function updateFaces() {
+    fetch(`${BASE_URL}/faces`)
+    .then(response => response.json())
+    .then(data => {
+        const select = document.getElementById('faceSelect');
+        select.innerHTML = '<option value="">Select Face to Track</option>';
+        data.forEach(face => {
+            const option = document.createElement('option');
+            option.value = face.id;
+            option.textContent = `Face ${face.id}`;
+            select.appendChild(option);
+        });
+    })
+    .catch(error => console.error('Error fetching faces:', error));
+}
+
+// Handle face selection
+document.getElementById('faceSelect').addEventListener('change', function() {
+    const faceId = this.value;
+    if (faceId) {
+        fetch(`${BASE_URL}/select_face`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ face_id: parseInt(faceId) })
+        }).catch(error => console.error('Error selecting face:', error));
+    }
+});
+
+// Update telemetry and faces every 2 seconds
+setInterval(() => {
+    updateTelemetry();
+    updateFaces();
+}, 2000);
+
+// Initial updates
+updateTelemetry();
+updateFaces();

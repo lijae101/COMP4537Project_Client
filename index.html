@@ -27,9 +27,23 @@
         <div class="row">
             <!-- Video Feed -->
             <div class="col-md-8">
-                <img src="http://localhost:5000/video_feed" alt="Drone Video Feed" class="img-fluid">
+                <img src="https://comp4537g2.loca.lt/video_feed" alt="Drone Video Feed" class="img-fluid">
+                <!-- Telemetry Card -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Telemetry</h5>
+                        <p>Battery: <span id="battery">N/A</span>%</p>
+                        <p>Height: <span id="height">N/A</span> cm</p>
+                    </div>
+                </div>
+                <!-- Face Selection -->
+                <div class="mb-3">
+                    <label for="faceSelect" class="form-label">Select Face to Track</label>
+                    <select id="faceSelect" class="form-select">
+                        <option value="">No Face Selected</option>
+                    </select>
+                </div>
             </div>
-
             <!-- Controls -->
             <div class="col-md-4">
                 <div class="card">
@@ -80,12 +94,30 @@
                                 <button class="btn btn-primary w-100" onclick="sendCommand('rotate_right')">Rotate Right</button>
                             </div>
                         </div>
+                        <!-- Flip Buttons -->
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                <button onclick="sendCommand('flip_left')" class="btn btn-primary w-100">Flip Left</button>
+                            </div>
+                            <div class="col-6">
+                                <button onclick="sendCommand('flip_right')" class="btn btn-primary w-100">Flip Right</button>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                <button onclick="sendCommand('flip_forward')" class="btn btn-primary w-100">Flip Forward</button>
+                            </div>
+                            <div class="col-6">
+                                <button onclick="sendCommand('flip_backward')" class="btn btn-primary w-100">Flip Back</button>
+                            </div>
+                        </div>
                         <!-- Track Face -->
                         <div class="row mb-3">
                             <div class="col-12">
                                 <button id="trackingButton" class="btn btn-warning w-100" onclick="toggleTracking()">Track Face</button>
                             </div>
                         </div>
+                        
                         <!-- Keyboard Instructions -->
                         <p class="text-muted">Use keyboard: Arrow keys (move), W/S (up/down), A/D (rotate), E (takeoff), Q (land)</p>
                     </div>
