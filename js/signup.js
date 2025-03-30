@@ -39,7 +39,7 @@ document.getElementById("signupForm").addEventListener("submit", function(event)
                 let response = xhr.responseText;
                 console.log("Server Response:", response);
 
-                if (response === "User inserted") {
+                if (response === "User created successfully") {
                     // Hide the signup form and show the success message
                     document.getElementById("signupForm").classList.add("d-none");
                     document.getElementById("redirect").classList.add("d-none");
