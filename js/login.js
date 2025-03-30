@@ -55,6 +55,11 @@ document.addEventListener("DOMContentLoaded", function () {
                                         let redirectPage = response.role === "admin" ? "admin.html" : "index.html";
                                         window.location.href = redirectPage;
                                     }
+                                    else {
+                                        console.error("Error:", xhr.status, xhr.statusText);
+                                        showMessage(messages.serverError, "danger");
+                                    }
+                                
                                 }
                             };
                             xhr2.send();
@@ -62,11 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
                      
 
                     }
-                } else {
-                    console.error("Error:", xhr.status, xhr.statusText);
-                    showMessage(messages.serverError, "danger");
-                }
-            
+                } 
         };
 
 
