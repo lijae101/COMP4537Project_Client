@@ -27,16 +27,19 @@ document.getElementById("signupForm").addEventListener("submit", function(event)
         let userData = { email: email, password: password };
 
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', 'https://lionfish-app-kaw6i.ondigitalocean.app/signup', true);
+        xhr.open('POST', 'https://lionfish-app-kaw6i.ondigitalocean.app/api/v1/signup', true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
         // Set up the callback function for the response
         xhr.onload = function() {
             if (xhr.status === 200) {
-                let response = xhr.responseText;
+                if(xhr.responseText.includes("API limit reached")) {
+                    alert("API limit reached. Please try again later.");
+                }
+                let response = JSON.parse(xhr.responseText);
                 console.log("Server Response:", response);
 
-                if (response === "User inserted") {
+                if (response.message === "User created successfully") {
                     // Hide the signup form and show the success message
                     document.getElementById("signupForm").classList.add("d-none");
                     document.getElementById("redirect").classList.add("d-none");
@@ -49,7 +52,7 @@ document.getElementById("signupForm").addEventListener("submit", function(event)
                     `;
                     document.getElementById("successMessage").innerHTML = successMessage;
                 } else {
-                    alert("Signup failed: " + response); 
+                    alert("Signup failed: " + response.message); 
                 }
             } else {
                 console.error("Error:", xhr.status, xhr.statusText);
