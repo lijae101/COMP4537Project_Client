@@ -9,8 +9,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             let tableHTML = '';
             usersData.forEach(user => {
-                tableHTML += `<tr><td>${user.email}</td><td>${user.apiCounter}</td></tr> <td><button onclick="deleteUser('${user.email}')" class="btn btn-danger">Delete</button></td>`;
+                tableHTML += `<tr><td>${user.email}</td><td>${user.apiCounter}</td><td><button onclick="deleteUser('${user.email}')" class="btn btn-danger">Delete</button></td></tr>`;
             });
+
 
             const tableBody = document.getElementById("userTableBody");
             if (usersData.length === 0) {
