@@ -27,12 +27,15 @@ document.getElementById("signupForm").addEventListener("submit", function(event)
         let userData = { email: email, password: password };
 
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', 'https://lionfish-app-kaw6i.ondigitalocean.app/signup', true);
+        xhr.open('POST', 'https://lionfish-app-kaw6i.ondigitalocean.app/api/v1/signup', true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
         // Set up the callback function for the response
         xhr.onload = function() {
             if (xhr.status === 200) {
+                if(xhr.responseText.includes("API limit reached")) {
+                    alert("API limit reached. Please try again later.");
+                }
                 let response = xhr.responseText;
                 console.log("Server Response:", response);
 
