@@ -24,6 +24,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 localStorage.setItem("email", response.email);
                 localStorage.setItem("role", response.role);
                 localStorage.setItem("apiCounter", response.apiCounter);
+                if(apiCounter >= 20) {
+                    alert("Free API limit reached!");
+                }
                 if (response.role === "admin") {
                     localStorage.setItem("usersData", JSON.stringify(response.usersData));
                     console.log("Users Data:", response.usersData); // Check the entire usersData object
