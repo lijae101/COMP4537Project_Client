@@ -81,9 +81,15 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("resetpass").addEventListener("click", function () {
-       document.getElementById("resetPassword").style.display = "block";
-        
+        document.getElementById("loginCard").style.display = "none"; // Hide the login form
+        document.getElementById("resetPassword").style.display = "block"; // Show reset password form
     });
+    
+    document.getElementById("backToLogin").addEventListener("click", function () {
+        document.getElementById("loginCard").style.display = "block"; // Show login form
+        document.getElementById("resetPassword").style.display = "none"; // Hide reset password form
+    });
+    
     document.getElementById("resetsubmit").addEventListener("click", function () {
         let email = document.getElementById("resetEmail").value.trim();
         console.log("Email:", email); // Log the email value for debugging
