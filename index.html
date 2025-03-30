@@ -7,16 +7,129 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
+    <!-- Navigation Bar -->
     <nav class="navbar navbar-dark bg-dark">
-        <div class="container-fluid">
-            <span class="navbar-brand">User Dashboard</span>
-            <button id="logoutBtn" class="btn btn-danger">Logout</button>
+        <div class="container-fluid d-flex">
+            <span class="navbar-brand mb-0 h1">User Dashboard</span>
+            <button id="logoutBtn" class="btn btn-danger ms-auto">Logout</button>
         </div>
     </nav>
 
+    <!-- Main Content -->
     <div class="container mt-4">
-        <h3>Welcome, <span id="userEmail">User</span>!</h3>
-        <p>You have  <strong id="apiCounter">0</strong> API calls remaining.</p>
+        <!-- Welcome Message and API Counter -->
+        <div class="text-center">
+            <h3>Welcome, <span id="userEmail">User</span>!</h3>
+            <p>You have made <strong id="apiCounter">0</strong> API calls</p>
+        </div>
+
+        <!-- Video Feed and Controls -->
+        <div class="row">
+            <!-- Video Feed -->
+            <div class="col-md-8">
+                <img id="drone_video_stream" src="https://comp4537g2.loca.lt/video_feed" alt="Drone Video Feed" class="img-fluid">
+                <!-- Telemetry Card -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Telemetry</h5>
+                        <p>Battery: <span id="battery">N/A</span>%</p>
+                        <p>Height: <span id="height">N/A</span> cm</p>
+                    </div>
+                </div>
+                <!-- Face Selection -->
+                <div class="mb-3">
+                    <label for="faceSelect" class="form-label">Select Face to Track</label>
+                    <select id="faceSelect" class="form-select">
+                        <option value="">No Face Selected</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Controls -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Drone Controls</h5>
+                        <!-- Take Off and Land -->
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                <button class="btn btn-success w-100" onclick="sendCommand('takeoff')">Take Off</button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-danger w-100" onclick="sendCommand('land')">Land</button>
+                            </div>
+                        </div>
+                        <!-- Forward and Backward -->
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                <button class="btn btn-primary w-100" onclick="sendCommand('forward')">Forward</button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-primary w-100" onclick="sendCommand('backward')">Backward</button>
+                            </div>
+                        </div>
+                        <!-- Left and Right -->
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                <button class="btn btn-primary w-100" onclick="sendCommand('left')">Left</button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-primary w-100" onclick="sendCommand('right')">Right</button>
+                            </div>
+                        </div>
+                        <!-- Up and Down -->
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                <button class="btn btn-primary w-100" onclick="sendCommand('up')">Up</button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-primary w-100" onclick="sendCommand('down')">Down</button>
+                            </div>
+                        </div>
+                        <!-- Rotate Left and Right -->
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                <button class="btn btn-primary w-100" onclick="sendCommand('rotate_left')">Rotate Left</button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-primary w-100" onclick="sendCommand('rotate_right')">Rotate Right</button>
+                            </div>
+                        </div>
+                        <!-- Flip Buttons -->
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                <button onclick="sendCommand('flip_left')" class="btn btn-primary w-100">Flip Left</button>
+                            </div>
+                            <div class="col-6">
+                                <button onclick="sendCommand('flip_right')" class="btn btn-primary w-100">Flip Right</button>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                <button onclick="sendCommand('flip_forward')" class="btn btn-primary w-100">Flip Forward</button>
+                            </div>
+                            <div class="col-6">
+                                <button onclick="sendCommand('flip_backward')" class="btn btn-primary w-100">Flip Back</button>
+                            </div>
+                        </div>
+                        <!-- Face Detection -->
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <button id="faceDetectionButton" class="btn btn-warning w-100" onclick="toggleFaceDetection()">Face Detection</button>
+                            </div>
+                        </div>
+                        <!-- Track Face -->
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <button id="trackingButton" class="btn btn-warning w-100" onclick="toggleTracking()" disabled>Track Face</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Keyboard Instructions -->
+                        <p class="text-muted">Use keyboard: Arrow keys (move), W/S (up/down), A/D (rotate), E (takeoff), Q (land)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="js/index.js"></script>
