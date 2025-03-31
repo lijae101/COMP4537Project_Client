@@ -135,18 +135,18 @@ function toggleFaceDetection() {
     //     })
     //     .catch(error => console.error('Error:', error));
     
-        const xhr2 = new XMLHttpRequest();
-        xhr2.withCredentials = true; // Include credentials in the request
-        xhr2.open("GET", "https://lionfish-app-kaw6i.ondigitalocean.app/drone/v1/toggle-face-detection", true); // Adjust the URL as needed
-        xhr2.setRequestHeader("Content-Type", "application/json");
-        xhr2.setRequestHeader("bypass-tunnel-reminder", "true");
-        xhr2.onreadystatechange = function () {
-            if (xhr2.readyState === 4) {
+        const xhr3 = new XMLHttpRequest();
+        xhr3.withCredentials = true; // Include credentials in the request
+        xhr3.open("GET", "https://lionfish-app-kaw6i.ondigitalocean.app/drone/v1/toggle-face-detection", true); // Adjust the URL as needed
+        xhr3.setRequestHeader("Content-Type", "application/json");
+        xhr3.setRequestHeader("bypass-tunnel-reminder", "true");
+        xhr3.onreadystatechange = function () {
+            if (xhr3.readyState === 4) {
                 console.log("Response:", xhr2.responseText);
-                if (xhr2.responseText.includes("API limit reached")) {
+                if (xhr3.responseText.includes("API limit reached")) {
                     alert("API limit reached. Please try again later.");
                 }
-                if (xhr2.status === 200) {
+                if (xhr3.status === 200) {
                     let response = xhr2.responseText.trim();
                     response = JSON.parse(response);
                     if (response.message && response.message.toLowerCase().includes("session expired")) {
@@ -166,7 +166,7 @@ function toggleFaceDetection() {
                 }
             }
         };
-        xhr2.send();
+        xhr3.send();
 }
 
 // toggle face tracking
