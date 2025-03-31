@@ -142,12 +142,12 @@ function toggleFaceDetection() {
         xhr3.setRequestHeader("bypass-tunnel-reminder", "true");
         xhr3.onreadystatechange = function () {
             if (xhr3.readyState === 4) {
-                console.log("Response:", xhr2.responseText);
+                console.log("Response:", xhr3.responseText);
                 if (xhr3.responseText.includes("API limit reached")) {
                     alert("API limit reached. Please try again later.");
                 }
                 if (xhr3.status === 200) {
-                    let response = xhr2.responseText.trim();
+                    let response = xhr3.responseText.trim();
                     response = JSON.parse(response);
                     if (response.message && response.message.toLowerCase().includes("session expired")) {
                         alert("Session expired. Please log in again.");
