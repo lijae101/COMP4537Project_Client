@@ -18,7 +18,7 @@
         <h3>Welcome, Admin!</h3>
         <p>Here is the API usage of all users:</p>
 
-        <!-- Table to show users' API usage -->
+        <!-- Table 1: Users API Usage -->
         <table class="table table-bordered">
             <thead class="table-dark">
                 <tr>
@@ -28,9 +28,37 @@
                 </tr>
             </thead>
             <tbody id="userTableBody">
-                <!-- Table rows will be populated dynamically -->
                 <tr>
-                    <td colspan="2" class="text-center">Loading...</td>
+                    <td colspan="3" class="text-center">Loading...</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Table 2: API Method Usage -->
+        <h3>API Request Counts</h3>
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Method</th>
+                    <th>Requests</th>
+                </tr>
+            </thead>
+            <tbody id="apiUsageTableBody">
+                <tr>
+                    <td>PUT</td>
+                    <td id="putCounter">0</td>
+                </tr>
+                <tr>
+                    <td>DELETE</td>
+                    <td id="deleteCounter">0</td>
+                </tr>
+                <tr>
+                    <td>POST</td>
+                    <td id="postCounter">0</td>
+                </tr>
+                <tr>
+                    <td>GET</td>
+                    <td id="getCounter">0</td>
                 </tr>
             </tbody>
         </table>
