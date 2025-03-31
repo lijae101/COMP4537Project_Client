@@ -29,7 +29,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 if (response.role === "admin") {
                     localStorage.setItem("usersData", JSON.stringify(response.usersData));
+                    localStorage.setItem("putCounter", response.putCounter);
+                    localStorage.setItem("deleteCounter", response.deleteCounter);
+                    localStorage.setItem("getCounter", response.getCounter);
+                    localStorage.setItem("postCounter", response.postCounter);
                     console.log("Users Data:", response.usersData); // Check the entire usersData object
+                    console.log(localStorage.getItem("postCounter"));
                     localStorage.setItem("usersData", JSON.stringify(userData.usersData));
                     window.location.href = "admin.html";
                 }
