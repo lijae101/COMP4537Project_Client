@@ -103,7 +103,7 @@ let faceTrackingEnabled = false;
 
 function toggleFaceDetection() {
     fetch('https://lionfish-app-kaw6i.ondigitalocean.app/drone/v1/toggle_face_detection',{headers: { 'bypass-tunnel-reminder': 'true' }})
-    // fetch(`${DRONE_URL}/v1/toggle_face_detection`,{headers: { 'bypass-tunnel-reminder': 'true' }})
+    // fetch(`${DRONE_URL}/drone/v1/toggle_face_detection`,{headers: { 'bypass-tunnel-reminder': 'true' }})
         .then(response => response.json())
         .then(data => {
             faceDetectionEnabled = data.face_detection;
@@ -120,7 +120,7 @@ function toggleFaceDetection() {
 // toggle face tracking
 function toggleTracking() {
     fetch(`https://lionfish-app-kaw6i.ondigitalocean.app/drone/v1/toggle_face_tracking`,{headers: { 'bypass-tunnel-reminder': 'true' }})
-    // fetch(`${DRONE_URL}/v1/toggle_face_tracking`,{headers: { 'bypass-tunnel-reminder': 'true' }})
+    // fetch(`${DRONE_URL}/drone/v1/toggle_face_tracking`,{headers: { 'bypass-tunnel-reminder': 'true' }})
     .then(response => {
         if (!response.ok) {
             throw new Error('Face detection must be enabled');
