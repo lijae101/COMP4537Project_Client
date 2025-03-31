@@ -125,6 +125,7 @@ function toggleFaceDetection() {
     // fetch(`${DRONE_URL}/drone/v1/toggle-face-detection`,{headers: { 'bypass-tunnel-reminder': 'true' }})
         .then(response => response.json())
         .then(data => {
+            console.log("data:"+data);
             faceDetectionEnabled = data.face_detection;
             trackingEnabled = data.tracking;
             const fdButton = document.getElementById('faceDetectionButton');
