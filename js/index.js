@@ -196,10 +196,10 @@ document.getElementById('faceSelect').addEventListener('change', function() {
 });
 
 // Update telemetry and faces every 2 seconds
-setInterval(() => {
-    updateTelemetry();
-    updateFaces();
-}, 2000);
+// setInterval(() => {
+//     updateTelemetry();
+//     updateFaces();
+// }, 2000);
 
 // Initial updates
 updateTelemetry();
