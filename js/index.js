@@ -24,6 +24,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 localStorage.setItem("email", response.email);
                 localStorage.setItem("role", response.role);
                 localStorage.setItem("apiCounter", response.apiCounter);
+                if(apiCounter >= 20) {
+                    alert("Free API limit reached!");
+                }
                 if (response.role === "admin") {
                     localStorage.setItem("usersData", JSON.stringify(response.usersData));
                     console.log("Users Data:", response.usersData); // Check the entire usersData object
@@ -57,8 +60,19 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.removeItem('apiCounter');
         localStorage.removeItem('role');
 
-        // Redirect to the login page
-        window.location.href = 'login.html';
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = true; // Include credentials in the request
+        xhr.open('DELETE', "https://lionfish-app-kaw6i.ondigitalocean.app/api/v1/logout", true); // Adjust the URL as needed
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log("Logout successful");
+                window.location.href = 'login.html';
+            } else {
+                console.error("Error:", xhr.status, xhr.statusText);
+            }
+        };
+         xhr.send();
     });
 
 
