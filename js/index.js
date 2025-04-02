@@ -121,52 +121,20 @@ let faceDetectionEnabled = false;
 let faceTrackingEnabled = false;
 
 function toggleFaceDetection() {
-    // fetch('https://lionfish-app-kaw6i.ondigitalocean.app/drone/v1/toggle-face-detection',{credentials: 'include', headers: { 'bypass-tunnel-reminder': 'true' }})
-    // // fetch(`${DRONE_URL}/drone/v1/toggle-face-detection`,{headers: { 'bypass-tunnel-reminder': 'true' }})
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         console.log("data:"+data);
-    //         faceDetectionEnabled = data.face_detection;
-    //         trackingEnabled = data.tracking;
-    //         const fdButton = document.getElementById('faceDetectionButton');
-    //         fdButton.innerText = faceDetectionEnabled ? 'Disable Face Detection' : 'Enable Face Detection';
-    //         const trackingButton = document.getElementById('trackingButton');
-    //         trackingButton.innerText = trackingEnabled ? 'Stop Tracking' : 'Start Tracking';
-    //         trackingButton.disabled = !faceDetectionEnabled;
-    //     })
-    //     .catch(error => console.error('Error:', error));
-
-    const xhr2 = new XMLHttpRequest();
-    xhr2.withCredentials = true; // Include credentials in the request
-    xhr2.open("GET", "https://lionfish-app-kaw6i.ondigitalocean.app/drone/v1/toggle-face-detection", true); // Adjust the URL as needed
-    xhr2.setRequestHeader("Content-Type", "application/json");
-    xhr2.setRequestHeader("bypass-tunnel-reminder", "true");
-    xhr2.onreadystatechange = function () {
-        if (xhr2.readyState === 4) {
-            console.log("Response:", xhr2.responseText);
-            if (xhr2.responseText.includes("API limit reached")) {
-                alert("API limit reached. Please try again later.");
-            }
-            if (xhr2.status === 200) {
-                let response = xhr2.responseText.trim();
-                data = JSON.parse(response);
-                if (data.message && data.message.toLowerCase().includes("session expired")) {
-                    alert("Session expired. Please log in again.");
-                    window.location.href = "login.html";
-                    return;
-                }
-
-                faceDetectionEnabled = data.face_detection;
-                trackingEnabled = data.tracking;
-                const fdButton = document.getElementById('faceDetectionButton');
-                fdButton.innerText = faceDetectionEnabled ? 'Disable Face Detection' : 'Enable Face Detection';
-                const trackingButton = document.getElementById('trackingButton');
-                trackingButton.innerText = trackingEnabled ? 'Stop Tracking' : 'Start Tracking';
-                trackingButton.disabled = !faceDetectionEnabled;
-            }
-        }
-    };
-    xhr2.send();
+    fetch('https://lionfish-app-kaw6i.ondigitalocean.app/drone/v1/toggle-face-detection',{credentials: 'include', headers: { 'bypass-tunnel-reminder': 'true' }})
+    // fetch(`${DRONE_URL}/drone/v1/toggle-face-detection`,{headers: { 'bypass-tunnel-reminder': 'true' }})
+        .then(response => response.json())
+        .then(data => {
+            console.log("data:"+data);
+            faceDetectionEnabled = data.face_detection;
+            trackingEnabled = data.tracking;
+            const fdButton = document.getElementById('faceDetectionButton');
+            fdButton.innerText = faceDetectionEnabled ? 'Disable Face Detection' : 'Enable Face Detection';
+            const trackingButton = document.getElementById('trackingButton');
+            trackingButton.innerText = trackingEnabled ? 'Stop Tracking' : 'Start Tracking';
+            trackingButton.disabled = !faceDetectionEnabled;
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 // toggle face tracking
